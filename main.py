@@ -43,10 +43,13 @@ app.add_middleware(
 )
 
 # ─── Serve the frontend HTML ──────────────────────────────────
-@app.get("/", include_in_schema=False)
-def serve_frontend():
-    return FileResponse("index.html")
-
+@app.get("/")
+async def serve_frontend():
+    # Yeh code dynamically exact folder ka path nikal lega
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+    html_path = os.path.join(BASE_DIR, "index.html")
+    
+    return FileResponse(html_path)
 
 # ══════════════════════════════════════════════════════════════
 #  PYDANTIC MODELS  (request body schemas)
