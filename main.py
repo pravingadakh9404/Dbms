@@ -18,8 +18,8 @@ from typing import Optional
 # ─── Load environment variables from .env (local dev) ────────
 load_dotenv()
 
-SUPABASE_URL: str = os.environ.get("SUPABASE_URL", "")
-SUPABASE_KEY: str = os.environ.get("SUPABASE_KEY", "")
+SUPABASE_URL: str = os.environ.get("SUPABASE_URL", "https://wxoikyissrudelyglftk.supabase.co")
+SUPABASE_KEY: str = os.environ.get("SUPABASE_KEY", "sb_publishable_NXFcWpeOHfarEn65thqMOw_T_YgeQhQ")
 
 if not SUPABASE_URL or not SUPABASE_KEY:
     raise RuntimeError("SUPABASE_URL and SUPABASE_KEY must be set in environment variables.")
