@@ -19,7 +19,7 @@ from typing import Optional
 load_dotenv()
 
 SUPABASE_URL: str = os.environ.get("SUPABASE_URL", "https://wxoikyissrudelyglftk.supabase.co")
-SUPABASE_KEY: str = os.environ.get("SUPABASE_KEY", "sb_publishable_NXFcWpeOHfarEn65thqMOw_T_YgeQhQ")
+SUPABASE_KEY: str = os.environ.get("SUPABASE_KEY", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Ind4b2lreWlzc3J1ZGVseWdsZnRrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzczODA3NDgsImV4cCI6MjA5Mjk1Njc0OH0.B7t-IkiVrXOCln9W3He96DMvXCZ5uijyH-j03qz-dwU")
 
 if not SUPABASE_URL or not SUPABASE_KEY:
     raise RuntimeError("SUPABASE_URL and SUPABASE_KEY must be set in environment variables.")
