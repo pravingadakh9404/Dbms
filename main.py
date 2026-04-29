@@ -8,7 +8,7 @@ from pydantic import BaseModel
 app = FastAPI()
 
 # YAHAN APNA NEON CONNECTION STRING PASTE KARNA
-NEON_URL = "YOUR_NEON_URL_HERE"
+NEON_URL = "postgresql://neondb_owner:npg_mJXablIo95Oc@ep-young-dawn-anao42j1.c-6.us-east-1.aws.neon.tech/neondb?sslmode=require"
 
 class BookingReq(BaseModel):
     concert_id: int
