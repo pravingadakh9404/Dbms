@@ -1,40 +1,89 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>StagePulse – Concert Ticket Booking</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Musical Concert Tickets</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans p-6">
+    <div class="max-w-4xl mx-auto">
+        <h1 class="text-4xl font-bold text-blue-600 mb-8 text-center">🎶 Concert Ticket Booking</h1>
+        
+        <div class="bg-white shadow-md rounded-lg p-6 mb-8">
+            <h2 class="text-2xl font-semibold mb-4">Available Concerts</h2>
+            <div id="concerts-list" class="grid gap-4 md:grid-cols-2">
+                </div>
+        </div>
 
-  <!-- Tailwind CSS CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
+        <div class="bg-white shadow-md rounded-lg p-6">
+            <h2 class="text-2xl font-semibold mb-4">Book Your Ticket</h2>
+            <form id="booking-form" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium">Select Concert ID</label>
+                    <input type="number" id="concert_id" required class="mt-1 w-full border border-gray-300 rounded-md p-2">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium">Your Name</label>
+                    <input type="text" id="user_name" required class="mt-1 w-full border border-gray-300 rounded-md p-2">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium">Email Address</label>
+                    <input type="email" id="email" required class="mt-1 w-full border border-gray-300 rounded-md p-2">
+                </div>
+                <button type="submit" class="w-full bg-blue-600 text-white font-bold py-2 px-4 rounded hover:bg-blue-700">Confirm Booking</button>
+            </form>
+        </div>
+    </div>
 
-  <!-- Google Fonts: Syne (display) + DM Sans (body) -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+    <script>
+        // Fetch Concerts
+        async function loadConcerts() {
+            const res = await fetch('/api/concerts');
+            const data = await res.json();
+            const list = document.getElementById('concerts-list');
+            list.innerHTML = '';
+            data.forEach(c => {
+                const dateObj = new Date(c.date_time);
+                list.innerHTML += `
+                    <div class="border p-4 rounded-md border-gray-200">
+                        <h3 class="font-bold text-lg text-blue-800">${c.name} (ID: ${c.id})</h3>
+                        <p class="text-sm">📍 ${c.venue}</p>
+                        <p class="text-sm">🗓️ ${dateObj.toLocaleString()}</p>
+                        <p class="font-bold mt-2 text-green-600">₹${c.price}</p>
+                    </div>
+                `;
+            });
+        }
 
-  <script>
-    // Tailwind config – custom tokens
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: {
-            display: ['Syne', 'sans-serif'],
-            body:    ['DM Sans', 'sans-serif'],
-          },
-          colors: {
-            accent: {
-              DEFAULT: '#FF4D6D',
-              light:   '#FF8FA3',
-              dark:    '#C9184A',
-            },
-            stage: {
-              50:  '#FFF0F3',
-              100: '#FFD6DF',
-              200: '#FFADC0',
-            },
-          },
-        },
+        // Handle Booking
+        document.getElementById('booking-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const payload = {
+                concert_id: document.getElementById('concert_id').value,
+                user_name: document.getElementById('user_name').value,
+                email: document.getElementById('email').value
+            };
+            
+            const res = await fetch('/api/book', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+            
+            if(res.ok) {
+                alert('Ticket booked successfully!');
+                document.getElementById('booking-form').reset();
+            } else {
+                alert('Error booking ticket.');
+            }
+        });
+
+        // Init
+        loadConcerts();
+    </script>
+</body>
+</html>        },
       },
     };
   </script>
